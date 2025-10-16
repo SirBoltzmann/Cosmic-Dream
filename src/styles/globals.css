@@ -1,0 +1,84 @@
+@import "tailwindcss";
+
+body {
+    background: #151515;
+}
+
+/* HIDE SCROLLBAR */
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+
+.scrollbar-hide {
+  -ms-overflow-style: none;  /* IE y Edge */
+  scrollbar-width: none;     /* Firefox */
+}
+
+/* SLIDER SCROLLBAR */
+.slider {
+  --sb-track-color: #050109;
+  --sb-thumb-color: #460889;
+  --sb-size: 13px;
+}
+
+.slider::-webkit-scrollbar {
+  height: var(--sb-size); 
+}
+
+.slider::-webkit-scrollbar-track {
+  background: var(--sb-track-color);
+  border-radius: 6px;
+}
+
+.slider::-webkit-scrollbar-thumb {
+  background: var(--sb-thumb-color);
+  border-radius: 6px;
+}
+
+@supports not selector(::-webkit-scrollbar) {
+  .slider {
+    scrollbar-color: var(--sb-thumb-color) var(--sb-track-color);
+  }
+}
+
+/* SPACE-BOX STYLES */
+.space-box {
+  transition: all 0.4s ease-in-out;
+}
+
+.space-box:hover {
+  color: white;
+  background-color: rgba(255, 255, 255, 0);
+  backdrop-filter: blur(4px) saturate(100%);
+  -webkit-backdrop-filter: blur(4px) saturate(100%);
+  outline: 2px solid rgba(255, 255, 255, 0.6);
+}
+
+/* ASTEROID ANIMATIONS */
+@keyframes float {
+  0% { transform: translateY(0px) translateX(0px) rotate(0deg); }
+  25% { transform: translateY(-20px) translateX(5px) rotate(5deg); }
+  50% { transform: translateY(0px) translateX(10px) rotate(-5deg); }
+  75% { transform: translateY(20px) translateX(5px) rotate(5deg); }
+  100% { transform: translateY(0px) translateX(0px) rotate(0deg); }
+}
+
+@keyframes drift {
+  0%, 100% { transform: translateX(0) translateY(0) rotate(-3deg) scale(1); }
+  50% { transform: translateX(20px) translateY(-15px) rotate(9deg) scale(1.05); }
+}
+
+@keyframes hover {
+  0%, 100% { transform: translateY(0) rotate(6deg); }
+  50% { transform: translateY(-25px) rotate(-10deg); }
+}
+
+@keyframes sway {
+  0%, 100% { transform: translateX(-5px) translateY(5px); }
+  50% { transform: translateX(15px) translateY(-5px); }
+}
+
+@keyframes slide {
+  0%, 100% { transform: translateY(10px) rotate(-5deg); }
+  50% { transform: translateY(-10px) rotate(20deg); }
+}
