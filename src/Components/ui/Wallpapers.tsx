@@ -1,5 +1,6 @@
 "use client"
 import { useGeneral } from "@/context/GeneralContext";
+import Image from "next/image";
 import { useEffect, useState } from "react";
 
 export default function Wallpapers () {
@@ -36,11 +37,19 @@ export default function Wallpapers () {
             </video>
         )
         : // If it's a Static Wallpaper
-        (   <img 
-                key={visibleWallpaper}
-                src={`/wallpapers/${currWallpaper}`}
-                alt="background-wallpaper"
-                className={`fixed top-0 left-0 inset-0 w-full h-full object-cover z-[-1] select-none pointer-events-none transition-opacity duration-700 ${isFading ? "opacity-0" : "opacity-100"}`}
-            />
+        (   
+            <div className="fixed top-0 left-0 w-full h-full z-[-1]">
+                <Image
+                    key={visibleWallpaper}
+                    src={`/wallpapers/${currWallpaper}`}
+                    alt="background-wallpaper"
+                    fill
+                    priority
+                    unoptimized
+                    className={`object-cover select-none pointer-events-none transition-opacity duration-700 ${
+                    isFading ? "opacity-0" : "opacity-100"
+                    }`}
+                />
+            </div>
         )
 }

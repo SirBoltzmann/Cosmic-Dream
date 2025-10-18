@@ -1,5 +1,5 @@
 import Sidebar from "@/Components/ui/Sidebar";
-import { Instagram, Github, Codepen, Linkedin, TentTree} from "lucide-react";Instagram
+import { Instagram, Github, Codepen, Linkedin, TentTree} from "lucide-react";
 
 export default function SupportPage() {
     return (
