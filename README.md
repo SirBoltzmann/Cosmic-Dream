@@ -79,13 +79,13 @@ src
 - [x] Define color palette, styles and fonts.
 - [x] Create the main page.
 - [x] Code the logic for creating, editing and deleting notes.
-- [ ] Create every page and its content.
+- [x] Create every page and its content.
 
 ### 🌷 Stage 2: Improve UX/UI and Code Elegant Animations
-- [ ] Improve UI (responsiveness, etc)
-- [ ] Change the Note Card UI from a Classic Note to an Asteroid.
-- [ ] Make asteroids float.
-- [ ] Create animations.
+- [x] Improve UI (responsiveness, etc)
+- [x] Change the Note Card UI from a Classic Note to an Asteroid.
+- [x] Make asteroids float.
+- [x] Create animations.
 
 ### 🌻 Stage 3: Improve and Scalability
 - [ ] Log-In and sessions with NextAuth.

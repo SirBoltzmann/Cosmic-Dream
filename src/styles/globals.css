@@ -82,3 +82,17 @@ body {
   0%, 100% { transform: translateY(10px) rotate(-5deg); }
   50% { transform: translateY(-10px) rotate(20deg); }
 }
+
+@keyframes floatInSite {
+  0% { transform: translateY(0px) translateX(0px); }
+  25% { transform: translateY(-70px) translateX(-40px); }
+  50% { transform: translateY(0px) translateX(0); }
+  75% { transform: translateY(50px) translateX(50px); }
+  100% { transform: translateY(0px) translateX(0); }
+}
+
+@keyframes starBlink {
+  0% { opacity: 1; }
+  50% { opacity: 0; }
+  100% { opacity: 1; }
+}

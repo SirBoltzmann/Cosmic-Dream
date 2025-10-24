@@ -1,4 +1,4 @@
-import { GeneralProvider } from "@/context/GeneralContext";
+import { Providers } from "@/providers/Providers";
 import Wallpapers from "@/Components/ui/Wallpapers";
 import type { Metadata } from "next";
 import { parkinsans, poppins, lato, } from "./ui/fonts";
@@ -15,10 +15,10 @@ export default function RootLayout({ children }: { children: React.ReactNode;}) 
   return (
     <html lang="en" className={`${parkinsans.variable} ${poppins.variable} ${lato.variable}`}>
       <body className="antialiased">
-        <GeneralProvider>
-          <Wallpapers />
-          <div className="relative z-1">{children}</div>
-        </GeneralProvider>
+          <Providers>
+            <Wallpapers />
+            <div className="relative z-1">{children}</div>
+          </Providers>
       </body>
     </html>
   );
