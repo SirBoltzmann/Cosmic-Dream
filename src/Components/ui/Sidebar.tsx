@@ -14,7 +14,7 @@ export default function Sidebar () {
     const { data: session, status } = useSession();
 
     return (
-        <aside className={`${isSidebarOpen ? 'w-64 p-3' : 'w-16 p-2'} flex flex-col justify-between h-screen fixed z-40 left-0 top-0 bg-white text-gray-900 rounded-tr-xl rounded-br-xl transition-all duration-300 shadow-[0px_-3px_36px_5px_rgba(0,0,0,0.7)]`}>
+        <aside className={`${isSidebarOpen ? 'w-64 p-3' : 'w-16 p-2'} flex flex-col justify-between min-h-dvh fixed z-40 left-0 top-0 bg-white text-gray-900 rounded-tr-xl rounded-br-xl transition-all duration-300 shadow-[0px_-3px_36px_5px_rgba(0,0,0,0.7)]`}>
             {/* Sidebar Header */}
             <div className={`flex justify-between items-center mb-6 ${!isSidebarOpen && 'justify-center'}`}>
                 { isSidebarOpen && <h2 className="text-xl font-bold">Cosmic Dream</h2> }
@@ -29,7 +29,7 @@ export default function Sidebar () {
             </div>
 
             {/* Links */}
-            <ul className="flex flex-col h-full">
+            <ul className="flex flex-col flex-1">
                 {sidebarBtnData.map(({ label, icon: Icon, href }) => {
                     const isActive = pathname === href;
 
