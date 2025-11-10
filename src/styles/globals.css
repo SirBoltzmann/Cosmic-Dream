@@ -96,3 +96,11 @@ body {
   50% { opacity: 0; }
   100% { opacity: 1; }
 }
+
+/* SAVE MESSAGE ANIMATION */
+/* @keyframes saveMessageAnimation {
+  0% { transform: translateY(0); }
+  10% { transform: translateY(100px); }
+  90% { transform: translateY(100px); }
+  100% { transform: translateY(0); }
+} */

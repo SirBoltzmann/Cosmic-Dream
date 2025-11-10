@@ -1,5 +1,7 @@
 import { Providers } from "@/providers/Providers";
+import { GeneralProvider } from "@/context/GeneralContext";
 import Wallpapers from "@/Components/ui/Wallpapers";
+import FirebaseAuthSync from "@/Components/firebase/firebaseAuthSync";
 import type { Metadata } from "next";
 import { parkinsans, poppins, lato, } from "./ui/fonts";
 import "../styles/globals.css";
@@ -16,8 +18,11 @@ export default function RootLayout({ children }: { children: React.ReactNode;}) 
     <html lang="en" className={`${parkinsans.variable} ${poppins.variable} ${lato.variable}`}>
       <body className="antialiased">
           <Providers>
-            <Wallpapers />
-            <div className="relative z-1">{children}</div>
+            <GeneralProvider>
+              <FirebaseAuthSync/>
+              <Wallpapers />
+              <div className="relative z-1">{children}</div>
+            </GeneralProvider>
           </Providers>
       </body>
     </html>

@@ -1,7 +1,8 @@
 "use client"
 
-import Sidebar from "@/Components/ui/Sidebar";
+import AdaptiveNavigation from "@/Components/ui/AdaptiveNavigation";
 import { useGeneral } from "@/context/GeneralContext";
+import { useEffect } from "react";
 import Image from "next/image";
 
 interface wallpaperTypes {
@@ -14,11 +15,30 @@ interface wallpaperTypes {
 }
 
 export default function SettingsPage() {
-    const { currWallpaper, setCurrentWallpaper } = useGeneral();
+    const { currWallpaper, setCurrentWallpaper, isMobile, isSidebarOpen } = useGeneral();
+
+    useEffect(() => {
+        const savedWallpaper = localStorage.getItem("currWallpaper");
+        if (savedWallpaper) {
+            setCurrentWallpaper(savedWallpaper);
+        }
+    }, [setCurrentWallpaper]);
+
+    useEffect(() => {
+        localStorage.setItem("currWallpaper", currWallpaper);
+    }, [currWallpaper]);
 
     const wallpapers:wallpaperTypes[] = [
         { 
             id: 1,
+            name: "Cosmic Wanderer",
+            preview: "cosmic-stars-thumb.png",
+            wallpaperPath: "NativeAnimation.tsx",
+            category: "Native animation",
+            description: "Find peace, introspection and calm here.. This is a safe place.. floating, drifting away, orbiting..",
+        },
+        { 
+            id: 2,
             name: "Cosmic Dreaming",
             preview: "space-bg-thumb.png",
             wallpaperPath: "space-bg.png",
@@ -26,7 +46,7 @@ export default function SettingsPage() {
             description: "A dark-purple themed nebula.. you can see asteroids and stars here.. It's.. so perfect and peaceful..",
         },
         { 
-            id: 2,
+            id: 3,
             name: "Star Chaser",
             preview: "starry-bg-thumb.png",
             wallpaperPath: "starry-bg.mp4",
@@ -34,7 +54,7 @@ export default function SettingsPage() {
             description: "A light blue-purple nebula, it's so peaceful you can watch the stars move.. Majestic, isn't it?",
         },
         { 
-            id: 3,
+            id: 4,
             name: "Endless Ocean of Stars",
             preview: "nebulae-bg-thumb.png",
             wallpaperPath: "nebulae-bg.mp4",
@@ -42,7 +62,7 @@ export default function SettingsPage() {
             description: "Dive into the deepest of the cosmos... tranquility and peace will guide your way to the stars..",
         },
         { 
-            id: 4,
+            id: 5,
             name: "Stargazing in the Darkness",
             preview: "dark-starry-night-thumb.jpg",
             wallpaperPath: "dark-starry-night.jpg",
@@ -53,11 +73,11 @@ export default function SettingsPage() {
 
     return (
        <>
-            <Sidebar/>
-            <div className="relative w-full h-full backdrop-blur-[2px] backdrop-saturate-[100%] bg-opacity-0">
+            <AdaptiveNavigation/>
+            <div className="relative w-full h-full backdrop-blur-[1px] backdrop-saturate-[100%] bg-opacity-0">
                 <div className="flex flex-col h-full justify-center">
-                    <h2 className={`flex items-center text-4xl font-bold text-purple-50 h-[12%] mb-8 mt-5 pl-23`}>Settings</h2>
-                    <div className="pl-[6rem] pr-5">
+                    <h2 className={`flex items-center text-4xl font-bold text-purple-50 h-[12%] mb-8 mt-5 ${isMobile ? "pl-7" : isSidebarOpen ? "pl-70" : "pl-23"}`}>Settings</h2>
+                    <div className={`${isMobile ? "pl-5" : "pl-[6rem]"} pr-5`}>
                         <div className="w-full"> {/* WALLPAPER SETTING */}
                             <h2 className="text-2xl font-semibold text-white mb-10">Wallpapers</h2>
                             <div className="flex flex-row gap-6 flex-wrap justify-center items-stretch ">
@@ -90,8 +110,9 @@ export default function SettingsPage() {
                             </div>
                         </div>
 
-                        <div className="text-2xl text-white font-bold mt-9 mb-4">
-                                Adding more configurations and settings in the future.. 
+                        <div className="text-2xl text-white font-bold mt-9 mb-24">
+                            Adding more configurations and settings in the future.. <br />
+                            Stay tuned ❤️🌌
                         </div>
                     </div>
                 </div>

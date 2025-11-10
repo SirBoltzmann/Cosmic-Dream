@@ -74,7 +74,7 @@ src
 
 ## **🛣️ Roadmap 🌌**
 
-### 🌱 Stage 1: Basic App Structure & UI (We're here yet... <3)
+### 🌱 Stage 1: Basic App Structure & UI
 - [x] Config Next.js + Tailwind.
 - [x] Define color palette, styles and fonts.
 - [x] Create the main page.
@@ -88,9 +88,9 @@ src
 - [x] Create animations.
 
 ### 🌻 Stage 3: Improve and Scalability
-- [ ] Log-In and sessions with NextAuth.
-- [ ] User Authentication.
-- [ ] Use Firebase as database for storing users data and notes.
+- [x] Log-In and sessions with NextAuth.
+- [x] User Authentication.
+- [x] Use Firebase as database for storing users data and notes.
 
 ---
 
@@ -111,3 +111,10 @@ src
 ```
 ---
 
+## **🌌 The Last Stage... (I'm Here yet)**
+### Following steps:
+- Keep updating, fixing bugs, and polish the experience.
+- I'll keep bringing up new updates, so stay tuned 🌌❤️ 
+
+### The End....
+- I guess this project is over... Thank you for being here.. 

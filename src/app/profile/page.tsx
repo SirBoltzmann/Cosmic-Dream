@@ -1,16 +1,30 @@
 "use client";
-import { useSession, signOut, signIn } from "next-auth/react";
+import { useSession, signOut as nextSignOut, signIn } from "next-auth/react";
+import { signOut as firebaseSignOut } from "firebase/auth";
+import { auth } from "@/lib/firebaseClient";
 import Image from "next/image";
-import Sidebar from "@/Components/ui/Sidebar";
+import AdaptiveNavigation from "@/Components/ui/AdaptiveNavigation";
+import { useGeneral } from "@/context/GeneralContext";
 
 export default function ProfilePage() {
-  const { data: session } = useSession();
+    const { data: session } = useSession();
+    const { isMobile } = useGeneral();
+
+    const handleLogout = async () => {
+        try {
+            await firebaseSignOut(auth);
+            await nextSignOut();
+            console.log("Both Firebase and NextAuth sessions closed!");
+        } catch (error) {
+            console.error("Error logging out:", error);
+        }
+    };
 
     if (!session) {
         return (
             <>
-                <Sidebar/>
-                <div className="min-h-screen flex flex-col text-white p-5 pl-23">
+                <AdaptiveNavigation/>
+                <div className={`min-h-screen flex flex-col text-white p-5 ${isMobile ? "pl-5" : "pl-23"}`}>
                     <header className="flex items-center justify-between mb-10">
                         <h1 className="text-2xl md:text-4xl font-bold">My Profile</h1>
                         <button onClick={() => signIn()} className="bg-[#0000005d] border-2 border-slate-400 px-4 py-2 cursor-pointer rounded-lg transition-all hover:scale-105">
@@ -42,11 +56,11 @@ export default function ProfilePage() {
 
     return (
         <>
-            <Sidebar/>
-            <div className="min-h-screen flex flex-col text-white p-5 pl-23">
-                <header className="flex items-center justify-between mb-10">
+            <AdaptiveNavigation/>
+            <div className={`min-h-screen flex flex-col text-white p-5 ${isMobile ? "pl-5" : "pl-23"}`}>
+                <header className={`flex items-center justify-between mb-10`}>
                     <h1 className="text-2xl md:text-4xl font-bold">My Profile</h1>
-                    <button onClick={() => signOut()} className="bg-[#0000005d] border-2 border-slate-400 px-4 py-2 cursor-pointer rounded-lg transition-all hover:scale-105">
+                    <button onClick={() => handleLogout()} className="bg-[#0000005d] border-2 border-slate-400 px-4 py-2 cursor-pointer rounded-lg transition-all hover:scale-105">
                         Sign Out
                     </button>
                 </header>

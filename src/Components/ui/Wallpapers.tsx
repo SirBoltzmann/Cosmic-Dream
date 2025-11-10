@@ -2,6 +2,7 @@
 import { useGeneral } from "@/context/GeneralContext";
 import Image from "next/image";
 import { useEffect, useState } from "react";
+import NativeAnimation from "./NativeAnimation";
 
 export default function Wallpapers () {
     const { currWallpaper } = useGeneral();
@@ -21,35 +22,35 @@ export default function Wallpapers () {
     
     if (!visibleWallpaper) return null;
 
+    const isNativeAnimation = visibleWallpaper.endsWith(".tsx")
     const isAnimated = visibleWallpaper.endsWith(".mp4");
-    return isAnimated 
-        ? // If the current wallpaper is Animated Wallpaper
-        (
-            <video 
+
+    return isNativeAnimation ? (
+        <NativeAnimation/>
+    ) : isAnimated ? (
+        <video 
+            key={visibleWallpaper}
+            autoPlay
+            loop
+            muted
+            playsInline
+            className={`fixed top-0 left-0 inset-0 w-full h-full object-cover z-[-1] select-none pointer-events-none transition-opacity duration-700 ${isFading ? "opacity-0" : "opacity-100"}`}
+        >
+            <source src={`/wallpapers/${currWallpaper}`} type="video/mp4" />
+        </video>
+    ) : (
+        <div className="fixed top-0 left-0 w-full h-full z-[-1]">
+            <Image
                 key={visibleWallpaper}
-                autoPlay
-                loop
-                muted
-                playsInline
-                className={`fixed top-0 left-0 inset-0 w-full h-full object-cover z-[-1] select-none pointer-events-none transition-opacity duration-700 ${isFading ? "opacity-0" : "opacity-100"}`}
-            >
-                <source src={`/wallpapers/${currWallpaper}`} type="video/mp4" />
-            </video>
-        )
-        : // If it's a Static Wallpaper
-        (   
-            <div className="fixed top-0 left-0 w-full h-full z-[-1]">
-                <Image
-                    key={visibleWallpaper}
-                    src={`/wallpapers/${currWallpaper}`}
-                    alt="background-wallpaper"
-                    fill
-                    priority
-                    unoptimized
-                    className={`object-cover select-none pointer-events-none transition-opacity duration-700 ${
+                src={`/wallpapers/${currWallpaper}`}
+                alt="background-wallpaper"
+                fill
+                priority
+                unoptimized
+                className={`object-cover select-none pointer-events-none transition-opacity duration-700 ${
                     isFading ? "opacity-0" : "opacity-100"
-                    }`}
-                />
-            </div>
-        )
+                }`}
+            />
+       </div>
+    )
 }

@@ -1,15 +1,20 @@
-import Sidebar from "@/Components/ui/Sidebar";
+"use client"
+
+import AdaptiveNavigation from "@/Components/ui/AdaptiveNavigation";
+import { useGeneral } from "@/context/GeneralContext";
 
 export default function AboutPage() {
+	const { isSidebarOpen, isMobile } = useGeneral();
+
 	return (
 		<>
-			<Sidebar/>
-			<div className="fixed top-0 left-0 w-screen h-screen backdrop-blur-[4px] bg-[#0000004a] backdrop-saturate-[115%] bg-opacity-150 -z-1"></div> {/* BLURRED BG */}
+			<AdaptiveNavigation/>
+			<div className="fixed top-0 left-0 w-screen h-screen backdrop-blur-[1px] bg-[#0000000a] backdrop-saturate-[115%] bg-opacity-150 -z-1"></div> {/* BLURRED BG */}
 			<div className="w-full h-full">
 				<div className="flex flex-col h-full items-center gap-3">
-					<h2 className="self-start text-3xl md:text-4xl font-bold text-purple-50 h-[12%] mb-8 mt-5 pl-23">About my Project</h2>
+					<h2 className={`self-start text-3xl md:text-4xl font-bold text-purple-50 h-[12%] mb-8 mt-5 ${isMobile ? "pl-7" : isSidebarOpen ? "pl-70" : "pl-23"}`}>About my Project</h2>
 					{/* TOP GRID */}
-					<div className="flex flex-col md:flex-row md:justify-center flex-wrap gap-5 pl-23"> 
+					<div className={`flex flex-col md:flex-row md:justify-center flex-wrap gap-5 ${isMobile ? "pl-5" : "pl-23"}`}> 
 						<div className="w-[95%] md:w-[45%] bg-[#ffffff] rounded-2xl px-6 py-3 space-box"> {/* APP */}
 							<h3 className="text-2xl font-bold mb-2">Cosmic Dream 🌌</h3>
 							<p>
@@ -29,7 +34,7 @@ export default function AboutPage() {
 					</div>
 
 					{/* MID GRID */}
-					<div className="flex flex-col md:flex-row md:justify-center flex-wrap gap-2.5 pl-23"> 
+					<div className={`flex flex-col md:flex-row md:justify-center flex-wrap gap-2.5 ${isMobile ? "pl-5" : "pl-23"}`}> 
 						<div className="w-[95%] md:w-[30%] bg-[#ffffff] rounded-2xl px-6 py-3 space-box"> {/* CREATION */}
 							<h3 className="text-2xl font-bold mb-2">The Creation</h3>
 							<p>
@@ -55,7 +60,7 @@ export default function AboutPage() {
 					</div>
 
 					{/* BOTTOM GRID */}
-					<div className="flex w-full md:justify-center pl-23"> 
+					<div className={`flex w-full md:justify-center ${isMobile ? "pl-5 pb-24" : "pl-23"}`}> 
 						<div className="w-[95%] md:w-[calc(90%+20px)] bg-[#ffffff] rounded-2xl px-6 py-3 space-box"> {/* SPECIAL CREDITS */}
 							<h3 className="text-2xl font-bold mb-2">Special Credits..</h3>
 							<p>

@@ -1,8 +1,11 @@
 "use client";
 import { useEffect, useState } from "react";
-import { signIn } from "next-auth/react";
+import { signIn, useSession } from "next-auth/react";
+import { redirect } from "next/navigation";
 import Image from "next/image";
 import Logo from "../../../../public/wallpapers/space-bg.png";
+import { getAuth } from "firebase/auth";
+import { app } from "@/lib/firebaseClient";
 
 type Star = {
     id: number;
@@ -13,7 +16,14 @@ type Star = {
 }
 
 export default function SignInPage() {
-    const [stars, setStars] = useState<Star[]>([]);
+    const [stars, setStars] = useState<Array<Star>>(() => []);
+    const { data: session, status } = useSession();
+
+    useEffect(() => {
+        if (status === "authenticated") {
+            redirect("/");
+        }
+    }, [status]);
 
     useEffect(() => {
         const starNumber: number = 350;
@@ -35,6 +45,34 @@ export default function SignInPage() {
         
         setStars(starArr);
     }, []);
+
+    // Test firebase connection
+    useEffect(() => {
+        async function testFirebaseConnection() {
+            try {
+                const auth = getAuth(app);
+                const user = auth.currentUser;
+
+                if (!user) {
+                    console.warn("Not an authenticated user yet..");
+                    return;
+                }
+
+                const token = await user.getIdToken();
+                // console.log("Obtained token: ", token.slice(0, 20) + "...");
+
+                await fetch("/api/test-firebase", {
+                    headers: {Authorization: `Bearer ${token}`},
+                });
+            } catch(err) {
+                console.error("Error testing Firebase connection: ", err);
+            } 
+        }
+        
+        if (session) {
+            testFirebaseConnection();
+        }
+    },[session]);
 
     return (
         <div className="relative flex flex-col items-center justify-center h-screen overflow-hidden bg-gradient-to-b from-[#000000] via-[#120020] to-[#280047] text-white z-0">

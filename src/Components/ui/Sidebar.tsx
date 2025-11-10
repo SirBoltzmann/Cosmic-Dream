@@ -6,12 +6,24 @@ import { sidebarBtnData } from '@/data/sidebarBtnData';
 import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
-import { useSession, signIn, signOut } from "next-auth/react";
+import { useSession, signIn, signOut as nextSignOut } from "next-auth/react";
+import { auth } from "@/lib/firebaseClient";
+import { signOut as firebaseSignOut } from "firebase/auth";
 
 export default function Sidebar () {
     const { isSidebarOpen, toggleSidebar } = useGeneral();
     const pathname = usePathname();
     const { data: session, status } = useSession();
+
+    const handleLogout = async () => {
+        try {
+            await firebaseSignOut(auth);
+            await nextSignOut();
+            console.log("Both Firebase and NextAuth sessions closed!");
+        } catch (error) {
+            console.error("Error logging out:", error);
+        }
+    };
 
     return (
         <aside className={`${isSidebarOpen ? 'w-64 p-3' : 'w-16 p-2'} flex flex-col justify-between min-h-dvh fixed z-40 left-0 top-0 bg-white text-gray-900 rounded-tr-xl rounded-br-xl transition-all duration-300 shadow-[0px_-3px_36px_5px_rgba(0,0,0,0.7)]`}>
@@ -88,7 +100,7 @@ export default function Sidebar () {
                             )}
                             {isSidebarOpen && (
                                 <div className="group relative">
-                                    <LogOut size={23} onClick={() => signOut()} className="cursor-pointer hover:scale-110 m-1" />
+                                    <LogOut size={23} onClick={() => handleLogout()} className="cursor-pointer hover:scale-110 m-1" />
                                     {isSidebarOpen && (
                                         <span className={`absolute opacity-0 pointer-events-none group-hover:opacity-100 group-hover:pointer-events-auto bg-white text-black transition-all duration-300 text-sm px-2 py-0.5 rounded-md bottom-1 left-13 whitespace-nowrap shadow-[0px_-3px_36px_5px_rgba(0,0,0,0.3)]`}>
                                             Log Out

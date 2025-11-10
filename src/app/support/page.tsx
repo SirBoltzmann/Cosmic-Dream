@@ -1,15 +1,20 @@
-import Sidebar from "@/Components/ui/Sidebar";
+"use client"
+
+import AdaptiveNavigation from "@/Components/ui/AdaptiveNavigation";
 import { Instagram, Github, Codepen, Linkedin, TentTree} from "lucide-react";
+import { useGeneral } from "@/context/GeneralContext";
 
 export default function SupportPage() {
+    const { isSidebarOpen, isMobile } = useGeneral();
+
     return (
         <>
-            <Sidebar/>
-            <div className="fixed top-0 left-0 w-screen h-screen backdrop-blur-[3px] bg-[#00000048] backdrop-saturate-[115%] bg-opacity-150 -z-1"></div> {/* BLURRED BG */}
+            <AdaptiveNavigation/>
+            <div className="fixed top-0 left-0 w-screen h-screen backdrop-blur-[1px] bg-[#00000008] backdrop-saturate-[115%] bg-opacity-150 -z-1"></div> {/* BLURRED BG */}
             <div className="w-full h-full">
                 <div className="flex flex-col h-full items-center gap-3">
-					<h2 className="self-start text-3xl md:text-4xl font-bold text-purple-50 h-[12%] mb-8 mt-5 pl-23">Support this Cosmic Dream ❤️🌌</h2>
-					<div className="flex w-full flex-col items-center gap-2 pl-23"> 
+					<h2 className={`self-start text-3xl md:text-4xl font-bold text-purple-50 h-[12%] mb-8 mt-5 ${isMobile ? "pl-7" : isSidebarOpen ? "pl-70" : "pl-23"}`}>Support this Cosmic Dream ❤️🌌</h2>
+					<div className={`flex w-full flex-col items-center gap-2 ${isMobile ? "px-1" : "pl-23"}`}> 
                         {/* ABOUT ME */}
 						<div className="w-[95%] bg-[#ffffff] rounded-2xl px-6 py-3 space-box">
 							<h3 className="text-2xl font-bold mb-2">A little about me...</h3>
@@ -135,7 +140,7 @@ export default function SupportPage() {
                         </div>
 
                         {/* BUTTONS */}
-                        <div className="flex flex-col items-center w-[95%] sm:flex-row sm:justify-center gap-4 my-7">
+                        <div className={`flex flex-col items-center w-[95%] sm:flex-row sm:justify-center gap-4 my-7 ${isMobile ? "pb-24" : ""}`} >
                             <a
                                 href="https://www.patreon.com/SirBoltzmann"
                                 target="_blank"

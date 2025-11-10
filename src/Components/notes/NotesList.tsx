@@ -1,3 +1,6 @@
+"use client"
+
+import { useGeneral } from "@/context/GeneralContext";
 import NoteCard from "./NoteCard";
 import { useEffect, useRef, useState } from "react";
 
@@ -16,6 +19,7 @@ interface NotesListProps {
 }
 
 export default function NotesList ({ notes, onDelete, onEdit }: NotesListProps) {
+    const { isMobile } = useGeneral();
     const scrollRef = useRef<HTMLDivElement>(null);
     const [isDragging, setIsDragging] = useState(false);
     const [startX, setStartX] = useState(0);
@@ -60,7 +64,7 @@ export default function NotesList ({ notes, onDelete, onEdit }: NotesListProps) 
     }, [isDragging, startX, scrollLeft]);
 
     return (
-        <div className="h-[88%] max-w-[100vw] pl-15 relative flex items-center select-none" >
+        <div className={`h-[88%] max-w-[100vw] ${isMobile ? "pb-20" : "pl-15"} relative flex items-center select-none`} >
             <div 
                 className={`slider flex items-center gap-7 w-full h-full overflow-y-hidden overflow-x-auto scroll-smooth ${isDragging ? "cursor-grabbing" : "cursor-grab"}`}
                 ref={scrollRef}
