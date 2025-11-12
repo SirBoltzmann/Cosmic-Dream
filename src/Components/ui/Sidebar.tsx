@@ -49,6 +49,7 @@ export default function Sidebar () {
                         <li key={label} className={`${isActive ? "!bg-gray-200" : ""} relative group rounded-2xl hover:bg-gray-100 transition-all`}>
                             <Link 
                                 href={href}
+                                onClick={() => {if (isSidebarOpen) toggleSidebar()}}
                                 className={`${isActive ? "!font-bold" : ""} flex items-center gap-3 pt-4.5 pb-4.5 pl-1.5 pr-1.5 hover:font-semibold transition-all ${!isSidebarOpen && 'justify-center'}`}
                             >
                                 <Icon size={isSidebarOpen ? 21 : 22} strokeWidth={isActive ? "2.5" : "2"}/>
@@ -70,7 +71,7 @@ export default function Sidebar () {
                             <div className={`min-w-10 h-10 bg-gradient-to-b from-purple-200 to-purple-400 rounded-full animate-pulse`}></div>
                         </div>
                     ) : session ? (
-                        <Link href={"/profile"} className={`flex items-center justify-between gap-3 w-full pt-3 pb-3 pl-1.5 pr-1.5 cursor-auto transition-all ${!isSidebarOpen && "justify-center"}`}>
+                        <Link onClick={() => {if (isSidebarOpen) toggleSidebar()}} href={"/profile"} className={`flex items-center justify-between gap-3 w-full pt-3 pb-3 pl-1.5 pr-1.5 cursor-auto transition-all ${!isSidebarOpen && "justify-center"}`}>
                             {session.user?.image ? (
                                 <div className="group relative">
                                     <Image

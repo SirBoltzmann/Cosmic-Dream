@@ -1,6 +1,6 @@
 "use client";
 
-import React, { createContext, useContext, useState, useEffect } from "react";
+import React, { createContext, useContext, useState, useEffect, useCallback } from "react";
 import { getDoc, doc } from "firebase/firestore"
 import { db, auth } from "@/lib/firebaseClient";
 import { onAuthStateChanged } from "firebase/auth";
@@ -116,9 +116,9 @@ export const GeneralProvider = ({ children }: { children: React.ReactNode }) => 
 
     // WALLPAPERS
     const [ currWallpaper, setCurrWallpaper ] = useState("NativeAnimation.tsx");
-    const setCurrentWallpaper = (wallpaperId: string) => {
+    const setCurrentWallpaper = useCallback((wallpaperId: string) => {
         setCurrWallpaper(wallpaperId);
-    }
+    }, []);
 
     const [ hasUnsavedChanges, setHasUnsavedChanges ] = useState(false);
     const [ isMobile, setIsMobile ] = useState(false);
