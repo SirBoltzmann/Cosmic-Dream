@@ -95,7 +95,7 @@ export default function ProfilePage() {
                     <div>
                         <div className="flex flex-row gap-2 items-center">
                             <NotebookPen size={18}/> 
-                            <p className="font-semibold">You've written:</p>
+                            <p className="font-semibold">You&apos;ve written:</p>
                             <span className="font-light">{notes.length} notes.</span>
                         </div>
                         <div className="flex flex-row gap-2 items-center">
