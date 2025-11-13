@@ -5,10 +5,13 @@ import { auth } from "@/lib/firebaseClient";
 import Image from "next/image";
 import AdaptiveNavigation from "@/Components/ui/AdaptiveNavigation";
 import { useGeneral } from "@/context/GeneralContext";
+import { NotebookPen, Star, ArchiveIcon, ClockPlus } from "lucide-react";
 
 export default function ProfilePage() {
     const { data: session } = useSession();
-    const { isMobile } = useGeneral();
+    const { notes, isMobile } = useGeneral();
+    const hasNotes = notes && notes.length > 0;
+    const lastNote = hasNotes ? notes[notes.length - 1] : null;
 
     const handleLogout = async () => {
         try {
@@ -65,7 +68,7 @@ export default function ProfilePage() {
                     </button>
                 </header>
 
-                <section className="bg-white/10 py-4 px-3 md:p-6 rounded-2xl border border-white/10 backdrop-blur-md shadow-lg flex flex-col sm:flex-row items-center gap-4 md:gap-6">
+                <section className="bg-white/7 py-4 px-3 md:p-6 rounded-2xl border border-white/15 backdrop-blur-xs shadow-lg flex flex-col sm:flex-row items-center gap-4 md:gap-6">
                     <div className="relative min-w-14 min-h-14 sm:w-20 sm:h-20 md:w-24 md:h-24 xl:w-32 xl:h-32 rounded-full">
                         {session.user?.image ? (
                             <Image
@@ -87,13 +90,34 @@ export default function ProfilePage() {
                     </div>
                 </section>
 
-                <section className="mt-6 bg-white/10 p-6 rounded-2xl border border-white/10 backdrop-blur-xs shadow-lg gap-6">
-                    <h3 className="text-lg font-semibold mb-3">Your Notes</h3>
-                    <p className="text-slate-200">Here you&apos;ll see your saved cosmic thoughts soon 💭✨</p>
+                <section className="mt-6 bg-white/5 p-6 rounded-2xl border border-white/15 backdrop-blur-[2px] shadow-lg gap-6">
+                    <h3 className="text-lg font-bold mb-2">Your Notes</h3>
+                    <div>
+                        <div className="flex flex-row gap-2 items-center">
+                            <NotebookPen size={18}/> 
+                            <p className="font-semibold">You've written:</p>
+                            <span className="font-light">{notes.length} notes.</span>
+                        </div>
+                        <div className="flex flex-row gap-2 items-center">
+                            <Star size={18}/>
+                            <p className="font-semibold">Favourite notes: </p>
+                            <span className="font-light">{notes.filter((note) => note.isFavorite).length} favourite notes.</span>
+                        </div>
+                        <div className="flex flex-row gap-2 items-center">
+                            <ArchiveIcon size={18}/>
+                            <p className="font-semibold">Archived notes:</p> 
+                            <span className="font-light">{notes.filter((note) => note.isArchived).length} archived notes.</span>
+                        </div>
+                        <div className="flex flex-row gap-2 items-center">
+                            <ClockPlus size={18}/>
+                            <p className="font-semibold">Last note:</p> 
+                            <span className="font-light ">{hasNotes ? `${lastNote?.title.slice(0, 24)}`  : isMobile ? "No notes yet.. start 🌌" : "No notes yet, start writting your cosmic thoughts and dreams.. ✨🌌"}</span>
+                        </div>
+                    </div>
                 </section>
 
-                <section className="mt-4 bg-white/10 p-6 rounded-2xl border border-white/10 backdrop-blur-xs shadow-lg gap-6">
-                    <h3 className="text-lg font-semibold mb-3">Most Recent Notes</h3>
+                <section className="mt-4 bg-white/2 p-6 rounded-2xl border border-white/15 backdrop-blur-[1px] shadow-lg gap-6">
+                    <h3 className="text-lg font-bold mb-3">Most Recent Notes</h3>
                     <p className="text-slate-200">Here you&apos;ll see your most recent notes and cosmic thoughts...</p>
                 </section>
             </div>
