@@ -97,10 +97,25 @@ body {
   100% { opacity: 1; }
 }
 
-/* SAVE MESSAGE ANIMATION */
-/* @keyframes saveMessageAnimation {
-  0% { transform: translateY(0); }
-  10% { transform: translateY(100px); }
-  90% { transform: translateY(100px); }
-  100% { transform: translateY(0); }
-} */
+
+/* TREMOR CHARTS STYLES */
+/* Axis text (ticks) */
+.tremor-x-axis text, .tremor-y-axis text {
+  fill: #ffffff !important;
+}
+
+/* Axis labels (Day, Written Notes, etc.) */
+.tremor-x-axis-title, .tremor-y-axis-title {
+  fill: #ffffff !important;
+}
+
+/* The main line */
+.tremor-foreground path {
+  stroke: #ffffff !important;
+}
+
+/* The filled area */
+.tremor-foreground .recharts-area-area {
+  fill: #f8f5fa !important;
+  opacity: 0.25 !important;
+}

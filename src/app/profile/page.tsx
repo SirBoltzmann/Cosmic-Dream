@@ -1,17 +1,42 @@
 "use client";
+import { useGeneral } from "@/context/GeneralContext";
 import { useSession, signOut as nextSignOut, signIn } from "next-auth/react";
 import { signOut as firebaseSignOut } from "firebase/auth";
 import { auth } from "@/lib/firebaseClient";
+import { getDate } from "@/utils/utils";
+import { AreaChart } from "@tremor/react";
 import Image from "next/image";
 import AdaptiveNavigation from "@/Components/ui/AdaptiveNavigation";
-import { useGeneral } from "@/context/GeneralContext";
-import { NotebookPen, Star, ArchiveIcon, ClockPlus } from "lucide-react";
+import { NotebookPen, Star, ArchiveIcon, ClockPlus, ChartSpline } from "lucide-react";
+import { Timestamp } from "firebase/firestore";
+
+type Note = {
+    id: string;
+    title: string;
+    content: string;
+    isFavorite?: boolean;
+    isArchived?: boolean;
+    createdAt: Timestamp;
+    updatedAt: Timestamp;
+};
 
 export default function ProfilePage() {
     const { data: session } = useSession();
     const { notes, isMobile } = useGeneral();
-    const hasNotes = notes && notes.length > 0;
-    const lastNote = hasNotes ? notes[notes.length - 1] : null;
+    const notesWithRealDate = notes.map(n => ({
+        ...n,
+        date: n.createdAt.toDate(),
+    }));
+    const titleCharLimit = isMobile ? 25 : 20;
+    const contentCharLimit = isMobile ? 30 : 25;
+
+    const stripHtml = (str: string) => str.replace(/<[^>]+>/g, "");
+
+    const decodeHtml = (string: string) => {
+        const text = document.createElement("textarea");
+        text.innerHTML = string;
+        return text.value;
+    };
 
     const handleLogout = async () => {
         try {
@@ -23,6 +48,26 @@ export default function ProfilePage() {
         }
     };
 
+    const getRecentNotes = (notes: Note[], limit: number) => {
+        return [...notes].sort((a, b) => b.createdAt.toMillis() - a.createdAt.toMillis()).slice(0, limit);
+    };
+
+    function groupNotesByDay(maxDays: number = 7) {
+        const map = new Map();
+
+        notesWithRealDate.forEach(n => {
+            const day = n.date.toISOString().split("T")[0];
+            map.set(day, (map.get(day) || 0) + 1);
+        });
+
+        const arr = Array.from(map, ([date, count]) => ({ date, count }));
+        arr.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+
+        const limited = arr.slice(0, maxDays);
+        return limited.reverse();
+    }
+    
+    // Rendering UI
     if (!session) {
         return (
             <>
@@ -111,14 +156,87 @@ export default function ProfilePage() {
                         <div className="flex flex-row gap-2 items-center">
                             <ClockPlus size={18}/>
                             <p className="font-semibold">Last note:</p> 
-                            <span className="font-light ">{hasNotes ? `${lastNote?.title.slice(0, 24)}`  : isMobile ? "No notes yet.. start 🌌" : "No notes yet, start writting your cosmic thoughts and dreams.. ✨🌌"}</span>
+                            {getRecentNotes(notes, 1).length > 0 ? (
+                                getRecentNotes(notes, 1).map((note, index) => (
+                                    <span key={index} className="font-light">
+                                        {note.title.slice(0, 20) + " ..." || (isMobile 
+                                            ? "No title.. 🌌" 
+                                            : "This note has no title yet.. ✨")}
+                                    </span>
+                                ))
+                            ) : (
+                                <span className="font-light">
+                                    {isMobile 
+                                        ? "No notes yet.. start 🌌" 
+                                        : "No notes yet, start writing your thoughts ✨🌌"}
+                                </span>
+                            )}
                         </div>
                     </div>
                 </section>
 
-                <section className="mt-4 bg-white/2 p-6 rounded-2xl border border-white/15 backdrop-blur-[1px] shadow-lg gap-6">
-                    <h3 className="text-lg font-bold mb-3">Most Recent Notes</h3>
-                    <p className="text-slate-200">Here you&apos;ll see your most recent notes and cosmic thoughts...</p>
+                <section className="mt-4 relative bg-white/2 px-4 pt-4 pb-2 rounded-2xl border border-white/15 backdrop-blur-[1px] shadow-lg gap-6">
+                    <header className="flex items-center gap-3 mb-8 ml-2">
+                        <ChartSpline strokeWidth={2.3}/>
+                        <h3 className="text-lg font-bold">Statistics Chart &#40;Weekly&#41;</h3>
+                    </header>
+                    <AreaChart 
+                        className="h-64 mt-4 tremor-x-axis tremor-y-axis tremor-foreground recharts-area-area "
+                        data={groupNotesByDay()}
+                        index="date"
+                        categories={["count"]}
+                        valueFormatter={(n) => Intl.NumberFormat("us").format(n)}
+                        xAxisLabel="Day"
+                        yAxisLabel="Written Notes"
+                        curveType="natural"
+                        noDataText="You've no notes yet, start now 🌌✨"
+                        showLegend={false}
+                        customTooltip={({ payload, active, label }) => {
+                            if (!active || !payload?.length) return null;
+
+                            return (
+                                <div className="bg-[#0000005d] border border-white/60 p-3 rounded-xl backdrop-blur-md shadow-3xl">
+                                    <p className="text-white font-semibold mb-1">{label}</p>
+
+                                    {payload.map((e, i) => (
+                                        <div key={i} className="flex items-center justify-center gap-3">
+                                            <span className="text-white">{e.name}:</span>
+                                            <span className="text-white font-bold">{e.value}</span>
+                                        </div>
+                                    ))}
+                                </div>
+                            );
+                        }}
+                    />
+                </section>
+
+                <section className={`mt-4 bg-white/3 p-6 rounded-2xl border border-white/15 backdrop-blur-[3px] shadow-lg gap-6 ${isMobile ? "mb-20" : ""}`}>
+                    <header className="flex items-center gap-3 mb-2">
+                        <ClockPlus strokeWidth={2.3} size={23}/>
+                        <h3 className="text-lg font-bold">Your Most Recent Notes</h3>
+                    </header>
+                    {getRecentNotes(notes, (isMobile ? 3 : 5)).map((n, i) => (
+                        <div key={i} className={`flex ${isMobile ? "flex-col justify-center mb-3 gap-1" : "flex-row items-center gap-2"}`}>
+                            <span className="font-semibold">
+                                {isMobile && "Title: "}
+                                {n.title.length > titleCharLimit 
+                                    ? n.title.slice(0, titleCharLimit) + "... " 
+                                    : n.title || "Untitled"
+                                }:
+                            </span>
+                            <p className="font-light">
+                                {isMobile && "Content: "}
+                                {decodeHtml(stripHtml(n.content)).length > contentCharLimit 
+                                    ? decodeHtml(stripHtml(n.content)).slice(0, contentCharLimit) + "..." 
+                                    : decodeHtml(stripHtml(n.content)) || "no content"
+                                }
+                            </p>
+                            <span className="text-xs text-neutral-400">
+                                {isMobile && "Date: "}
+                                {getDate(n.createdAt)}
+                            </span>
+                        </div>
+                    ))}
                 </section>
             </div>
         </>

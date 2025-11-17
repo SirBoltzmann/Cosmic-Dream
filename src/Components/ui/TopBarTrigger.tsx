@@ -1,11 +1,15 @@
 "use client";
 
+import { Timestamp } from "firebase/firestore";
+
 type Note = {
     id: string;
     title: string;
     content: string;
     isFavorite?: boolean;
     isArchived?: boolean;
+    createdAt: Timestamp;
+    updatedAt: Timestamp;
 };
 
 interface TopBarTriggerProps {

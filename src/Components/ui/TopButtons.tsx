@@ -7,6 +7,7 @@ import { useGeneral } from "@/context/GeneralContext";
 import TopBarTrigger from "./TopBarTrigger";
 import SaveChangesBtn from "./SaveChangesBtn";
 import SearchNote from "./SearchNote";
+import { Timestamp } from "firebase/firestore";
 
 type Note = {
     id: string;
@@ -14,6 +15,8 @@ type Note = {
     content: string;
     isFavorite?: boolean;
     isArchived?: boolean;
+    createdAt: Timestamp;
+    updatedAt: Timestamp;
 };
 
 export default function TopButtons() {

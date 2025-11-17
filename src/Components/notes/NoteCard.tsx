@@ -1,8 +1,10 @@
 "use client"
 
-import { useRef, useState } from "react";
-import Image from "next/image";
 import { useGeneral } from "@/context/GeneralContext";
+import { useRef, useState } from "react";
+import { getDate } from "@/utils/utils";
+import { Timestamp } from "firebase/firestore";
+import Image from "next/image";
 import { EditIcon, TrashIcon, Star, Archive, X } from "lucide-react";
 import AsteroidImg from "../../../public/test3.png";
 // IMPORT ASTEROID
@@ -13,6 +15,8 @@ type Note = {
     content: string;
     isFavorite?: boolean;
     isArchived?: boolean;
+    createdAt: Timestamp;
+    updatedAt: Timestamp;
 };
 
 interface NoteCardProps {
@@ -56,7 +60,7 @@ export default function NoteCard({ note, onDelete, onEdit }: NoteCardProps) {
 
             { isCardOpen && /* OVERLAY */
                 <div onClick={toggleCard} className="flex justify-center items-center fixed right-0 top-0 h-screen w-screen bg-[#000000a2] backdrop-blur-[3px] backdrop-saturate-[100%] z-50 cursor-default">
-                    <div onClick={(e) => e.stopPropagation()} className="relative flex flex-col justify-center w-full sm:w-[28rem] md:w-[32rem] lg:w-[36rem] gap-3 p-5 bg-[#121113] border-2 border-[#ffffff8a] hover:border-[#ffffffbe] rounded-2xl transition">
+                    <div onClick={(e) => e.stopPropagation()} className="relative flex flex-col justify-center w-full sm:w-[28rem] md:w-[32rem] lg:w-[36rem] gap-3 p-5 pb-11 bg-[#121113] border-2 border-[#ffffff8a] hover:border-[#ffffffbe] rounded-2xl transition">
                         <button onClick={toggleCard} className="absolute top-3 right-3 text-amber-50 cursor-pointer">
                             <X size={25} strokeWidth={2.2}/>
                         </button>
@@ -102,6 +106,18 @@ export default function NoteCard({ note, onDelete, onEdit }: NoteCardProps) {
                                     <EditIcon size={18} strokeWidth={2.2}/>
                                 </button>
                             )}
+                        </div>
+
+                        <div className="absolute bottom-2 left-3 text-sm font-light text-[#ffffff60]">
+                            <div className="relative group cursor-default w-fit">
+                                Updated: {getDate(note.updatedAt)}
+
+                                {/* Tooltip */}
+                                <span className="absolute bottom-full left-0 mb-1 hidden group-hover:block bg-[#1211134f] text-white text-xs  px-2 py-1 rounded whitespace-nowrap border border-white/20 shadow-lg backdrop-blur-sm">
+                                    Created: {getDate(note.createdAt)}
+                                </span>
+                            </div>
+
                         </div>
                     </div>
                 </div>

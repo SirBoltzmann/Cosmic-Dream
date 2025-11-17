@@ -2,6 +2,8 @@
 
 import { useState, useEffect } from "react";
 import NoteEditor from "../notes/NoteEditor";
+import { Timestamp } from "firebase/firestore";
+
 
 type Note = {
     id: string;
@@ -9,6 +11,8 @@ type Note = {
     content: string;
     isFavorite?: boolean;
     isArchived?: boolean;
+    createdAt: Timestamp;
+    updatedAt: Timestamp;
 };
 
 interface NoteModalProps {
@@ -22,14 +26,20 @@ interface NoteModalProps {
 export default function NoteModal( { mode, note, onClose, onSave }: NoteModalProps ) {
     const [ title, setTitle ] = useState(note?.title ?? "");
     const [ content, setContent ] = useState(note?.content ?? "");
+    const [createdAt, setCreatedAt] = useState<Timestamp>(note?.createdAt ?? Timestamp.now());
+    const [updatedAt, setUpdatedAt] = useState<Timestamp>(note?.updatedAt ?? Timestamp.now());
 
     useEffect(() => {
         if (mode === "edit" && note) {
             setTitle(note.title);
             setContent(note.content);
+            setCreatedAt(note.createdAt);
+            setUpdatedAt(Timestamp.now());
         } else if (mode === "create") {
             setTitle("");
             setContent("");
+            setCreatedAt(Timestamp.now());
+            setUpdatedAt(Timestamp.now());
         }
     }, [mode, note]);
 
@@ -40,6 +50,8 @@ export default function NoteModal( { mode, note, onClose, onSave }: NoteModalPro
             content: content,
             isFavorite: note?.isFavorite ?? false,
             isArchived: note?.isArchived ?? false,
+            createdAt: createdAt,
+            updatedAt: updatedAt,
         };
         onClose();
         onSave(newNote);

@@ -3,6 +3,7 @@
 import { useGeneral } from "@/context/GeneralContext";
 import NoteCard from "./NoteCard";
 import { useEffect, useRef, useState } from "react";
+import { Timestamp } from "firebase/firestore";
 
 type Note = {
     id: string;
@@ -10,6 +11,8 @@ type Note = {
     content: string;
     isFavorite?: boolean;
     isArchived?: boolean;
+    createdAt: Timestamp;
+    updatedAt: Timestamp;
 };
 
 interface NotesListProps {

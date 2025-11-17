@@ -4,6 +4,7 @@ import React, { createContext, useContext, useState, useEffect, useCallback } fr
 import { getDoc, doc } from "firebase/firestore"
 import { db, auth } from "@/lib/firebaseClient";
 import { onAuthStateChanged } from "firebase/auth";
+import { Timestamp } from "firebase/firestore";
 
 type Note = {
     id: string;
@@ -11,6 +12,8 @@ type Note = {
     content: string;
     isFavorite?: boolean;
     isArchived?: boolean;
+    createdAt: Timestamp;
+    updatedAt: Timestamp;
 };
 
 type GeneralContextType = {
@@ -40,6 +43,7 @@ type GeneralContextType = {
 const GeneralContext = createContext<GeneralContextType | undefined>(undefined);
 
 export const GeneralProvider = ({ children }: { children: React.ReactNode }) => {
+
     useEffect(() => {
         const unsubscribe = onAuthStateChanged(auth, async (user) => {
             if (!user) {
@@ -70,7 +74,6 @@ export const GeneralProvider = ({ children }: { children: React.ReactNode }) => 
 
         return () => unsubscribe();
     }, []);
-
 
     // NOTE FUNCTIONALITIES AND STATES
     const [notes, setNotes] = useState<Note[]>([]);
