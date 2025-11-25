@@ -29,6 +29,7 @@ export default function NoteCard({ note, onDelete, onEdit }: NoteCardProps) {
     const [ isCardOpen, setIsCardOpen ] = useState(false);
     const {notes, toggleFavorite, toggleArchived } = useGeneral();
     const currNote = notes.find(({ id }) => id === note.id);
+    const data = currNote ?? note;
     
     const toggleCard = () => {
         setIsCardOpen(!isCardOpen);
@@ -64,10 +65,10 @@ export default function NoteCard({ note, onDelete, onEdit }: NoteCardProps) {
                         <button onClick={toggleCard} className="absolute top-3 right-3 text-amber-50 cursor-pointer">
                             <X size={25} strokeWidth={2.2}/>
                         </button>
-                        <h2 className="w-full font-bold text-white text-lg" >{note.title}</h2>
+                        <h2 className="w-full font-bold text-white text-lg" >{data.title}</h2>
                         <div 
                             className="w-full max-h-52 sm:max-h-64 md:max-h-72 lg:max-h-96 overflow-auto text-white [&_ul]:list-disc [&_ul]:ml-5 [&_ol]:list-decimal [&_ol]:ml-5 [&_li]:mb-1"
-                            dangerouslySetInnerHTML={{ __html: note.content }}> 
+                            dangerouslySetInnerHTML={{ __html: data.content }}> 
                         </div>
 
                         {/* Buttons */}
@@ -110,11 +111,11 @@ export default function NoteCard({ note, onDelete, onEdit }: NoteCardProps) {
 
                         <div className="absolute bottom-2 left-3 text-sm font-light text-[#ffffff60]">
                             <div className="relative group cursor-default w-fit">
-                                Updated: {getDate(note.updatedAt)}
+                                Updated: {getDate(data.updatedAt)}
 
                                 {/* Tooltip */}
                                 <span className="absolute bottom-full left-0 mb-1 hidden group-hover:block bg-[#1211134f] text-white text-xs  px-2 py-1 rounded whitespace-nowrap border border-white/20 shadow-lg backdrop-blur-sm">
-                                    Created: {getDate(note.createdAt)}
+                                    Created: {getDate(data.createdAt)}
                                 </span>
                             </div>
 

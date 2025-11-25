@@ -1,9 +1,4 @@
-import { Parkinsans, Poppins, Lato } from "next/font/google";
-
-export const parkinsans = Parkinsans({
-  variable: "--font-parkinsans",
-  subsets: ["latin"],
-});
+import { Poppins, Lato } from "next/font/google";
 
 export const poppins = Poppins({
   variable: "--font-poppins",
