@@ -7,6 +7,7 @@ import { getDate } from "@/utils/utils";
 import { AreaChart } from "@tremor/react";
 import Image from "next/image";
 import AdaptiveNavigation from "@/Components/ui/AdaptiveNavigation";
+import InstallButton from "@/Components/ui/InstallButton";
 import { NotebookPen, Star, ArchiveIcon, ClockPlus, ChartSpline } from "lucide-react";
 import { Timestamp } from "firebase/firestore";
 
@@ -210,7 +211,7 @@ export default function ProfilePage() {
                     />
                 </section>
 
-                <section className={`mt-4 bg-white/3 p-6 rounded-2xl border border-white/15 backdrop-blur-[3px] shadow-lg gap-6 ${isMobile ? "mb-20" : ""}`}>
+                <section className={`mt-4 bg-white/3 p-6 rounded-2xl border border-white/15 backdrop-blur-[3px] shadow-lg gap-6`}>
                     <header className="flex items-center gap-3 mb-2">
                         <ClockPlus strokeWidth={2.3} size={23}/>
                         <h3 className="text-lg font-bold">Your Most Recent Notes</h3>
@@ -237,6 +238,10 @@ export default function ProfilePage() {
                             </span>
                         </div>
                     ))}
+                </section>
+
+                <section className={`mt-4 ${isMobile ? "mb-20" : ""}`}>
+                    <InstallButton/>
                 </section>
             </div>
         </>

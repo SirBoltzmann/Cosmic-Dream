@@ -4,8 +4,8 @@
     "description": "Save your ideas and thoughts between the stars...🌌✨",
     "start_url": "/",
     "display": "standalone",
-    "background_color": "#121113",
-    "theme_color": "#21003a",
+    "background_color": "#0d0017",
+    "theme_color": "#000",
     "orientation": "portrait",
     "icons": [
         {
