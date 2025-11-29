@@ -1,7 +1,7 @@
 "use client"
 import { useGeneral } from "@/context/GeneralContext";
-import AdaptiveNavigation from "@/Components/ui/AdaptiveNavigation";
-import NotesList from "@/Components/notes/NotesList";
+import AdaptiveNavigation from "@/components/ui/AdaptiveNavigation";
+import NotesList from "@/components/notes/NotesList";
 
 export default function FavoritesPage() {
     // Context

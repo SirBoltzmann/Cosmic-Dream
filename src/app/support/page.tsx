@@ -1,6 +1,6 @@
 "use client"
 
-import AdaptiveNavigation from "@/Components/ui/AdaptiveNavigation";
+import AdaptiveNavigation from "@/components/ui/AdaptiveNavigation";
 import { Instagram, Github, Codepen, Linkedin, TentTree} from "lucide-react";
 import { useGeneral } from "@/context/GeneralContext";
 

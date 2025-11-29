@@ -1,8 +1,8 @@
 import { Providers } from "@/providers/Providers";
 import { GeneralProvider } from "@/context/GeneralContext";
-import Wallpapers from "@/Components/ui/Wallpapers";
-import FirebaseAuthSync from "@/Components/firebase/firebaseAuthSync";
-import RegisterSW from "@/Components/pwa/RegisterSW";
+import Wallpapers from "@/components/ui/Wallpapers";
+import FirebaseAuthSync from "@/components/firebase/firebaseAuthSync";
+import RegisterSW from "@/components/pwa/RegisterSW";
 import type { Metadata } from "next";
 import { poppins, lato, } from "./ui/fonts";
 import "../styles/globals.css";

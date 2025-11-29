@@ -6,8 +6,8 @@ import { auth } from "@/lib/firebaseClient";
 import { getDate } from "@/utils/utils";
 import { AreaChart } from "@tremor/react";
 import Image from "next/image";
-import AdaptiveNavigation from "@/Components/ui/AdaptiveNavigation";
-import InstallButton from "@/Components/ui/InstallButton";
+import AdaptiveNavigation from "@/components/ui/AdaptiveNavigation";
+import InstallButton from "@/components/ui/InstallButton";
 import { NotebookPen, Star, ArchiveIcon, ClockPlus, ChartSpline } from "lucide-react";
 import { Timestamp } from "firebase/firestore";
 

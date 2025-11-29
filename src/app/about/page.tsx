@@ -1,6 +1,6 @@
 "use client"
 
-import AdaptiveNavigation from "@/Components/ui/AdaptiveNavigation";
+import AdaptiveNavigation from "@/components/ui/AdaptiveNavigation";
 import { useGeneral } from "@/context/GeneralContext";
 
 export default function AboutPage() {

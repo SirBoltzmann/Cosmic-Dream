@@ -17,7 +17,7 @@ body {
 /* SLIDER SCROLLBAR */
 .slider {
   --sb-track-color: #050109;
-  --sb-thumb-color: #460889;
+  --sb-thumb-color: #3f087a;
   --sb-size: 13px;
 }
 
