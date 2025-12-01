@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { signIn, useSession } from "next-auth/react";
 import { redirect } from "next/navigation";
 import Image from "next/image";
-import Logo from "../../../../public/wallpapers/space-bg.png";
+import Logo from "../../../../public/wallpapers/cosmic-dream.jpeg";
 import { getAuth } from "firebase/auth";
 import { app } from "@/lib/firebaseClient";
 
@@ -111,8 +111,8 @@ export default function SignInPage() {
                 <Image
                     src={Logo}
                     alt="Cosmic Dream Logo"
-                    width={300}
-                    height={300}
+                    width={260}
+                    height={260}
                     className="mb-6 animate-pulse rounded-3xl"
                 />
                 <h1 className="text-4xl font-bold mb-2 tracking-wide">Welcome, Cosmic Dreamer 🌌</h1>
