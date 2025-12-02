@@ -1,6 +1,7 @@
 "use client";
 
 import { Timestamp } from "firebase/firestore";
+import { motion } from "framer-motion";
 
 type Note = {
     id: string;
@@ -22,7 +23,10 @@ interface TopBarTriggerProps {
 export default function TopBarTrigger({onOpenModal, onModeChange, onSelectNote}: TopBarTriggerProps) {
     return (
         <div className="flex justify-center items-center">
-            <button
+            <motion.button
+                initial={{ transform: "translateY(-20px)", opacity: 0 }} 
+                transition={{ type: "spring" }} 
+                whileInView={{ transform: "translateY(0px)", opacity: 1 }}
                 onClick={() => {
                     onOpenModal(true);
                     onModeChange("create");
@@ -32,7 +36,7 @@ export default function TopBarTrigger({onOpenModal, onModeChange, onSelectNote}:
             >
                 <span className="inline sm:hidden">New Note</span>
                 <span className="hidden sm:inline">+ Create New Note</span>
-            </button>
+            </motion.button>
         </div>
     );
 }

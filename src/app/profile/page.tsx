@@ -10,6 +10,7 @@ import AdaptiveNavigation from "@/components/ui/AdaptiveNavigation";
 import InstallButton from "@/components/ui/InstallButton";
 import { NotebookPen, Star, ArchiveIcon, ClockPlus, ChartSpline } from "lucide-react";
 import { Timestamp } from "firebase/firestore";
+import { motion } from "framer-motion";
 
 type Note = {
     id: string;
@@ -108,13 +109,31 @@ export default function ProfilePage() {
             <AdaptiveNavigation/>
             <div className={`min-h-screen flex flex-col text-white p-5 ${isMobile ? "pl-5" : "pl-23"}`}>
                 <header className={`flex items-center justify-between mb-10`}>
-                    <h1 className="text-2xl md:text-4xl font-bold">My Profile</h1>
-                    <button onClick={() => handleLogout()} className="bg-[#0000005d] border-2 border-slate-400 px-4 py-2 cursor-pointer rounded-lg transition-all hover:scale-105">
+                    <motion.h1
+                        initial={{ transform: "translateX(20px)", opacity: 0 }} 
+                        transition={{ type: "spring" }} 
+                        whileInView={{ transform: "translateX(0px)", opacity: 1 }}
+                        className="text-2xl md:text-4xl font-bold"
+                    >
+                        My Profile
+                    </motion.h1>
+                    <motion.button
+                        initial={{ transform: "translateX(-20px)", opacity: 0 }} 
+                        transition={{ type: "spring" }} 
+                        whileInView={{ transform: "translateX(0px)", opacity: 1 }}
+                        onClick={() => handleLogout()} 
+                        className="bg-[#0000005d] border-2 border-slate-400 px-4 py-2 cursor-pointer rounded-lg transition-all hover:scale-105"
+                    >
                         Sign Out
-                    </button>
+                    </motion.button>
                 </header>
 
-                <section className="bg-white/7 py-4 px-3 md:p-6 rounded-2xl border border-white/15 backdrop-blur-xs shadow-lg flex flex-col sm:flex-row items-center gap-4 md:gap-6">
+                <motion.section
+                    initial={{ transform: "translateY(20px)", opacity: 0 }} 
+                    transition={{ type: "spring" }} 
+                    whileInView={{ transform: "translateY(0px)", opacity: 1 }}
+                    className="bg-white/7 py-4 px-3 md:p-6 rounded-2xl border border-white/15 backdrop-blur-xs shadow-lg flex flex-col sm:flex-row items-center gap-4 md:gap-6"
+                >
                     <div className="relative min-w-14 min-h-14 sm:w-20 sm:h-20 md:w-24 md:h-24 xl:w-32 xl:h-32 rounded-full">
                         {session.user?.image ? (
                             <Image
@@ -128,33 +147,77 @@ export default function ProfilePage() {
                         )}
                     </div>
                     <div>
-                        <h2 className="text-md sm:text-xl font-semibold">{session.user?.name}</h2>
-                        <p className="text-sm sm:text-md text-white">
+                        <motion.h2
+                            initial={{ transform: "translateY(20px)", opacity: 0 }} 
+                            transition={{ type: "spring" }} 
+                            whileInView={{ transform: "translateY(0px)", opacity: 1 }}
+                            className="text-md sm:text-xl font-semibold"
+                        >
+                            {session.user?.name}
+                        </motion.h2>
+                        <motion.p
+                            initial={{ transform: "translateY(20px)", opacity: 0 }} 
+                            transition={{ type: "spring" }} 
+                            whileInView={{ transform: "translateY(0px)", opacity: 1 }}
+                            className="text-sm sm:text-md text-white"
+                        >
                             Logged in as 
                             <span className="text-sm sm:text-md text-[#b5b4bcd6]"> {session.user?.email}</span>
-                        </p>
+                        </motion.p>
                     </div>
-                </section>
+                </motion.section>
 
-                <section className="mt-6 bg-white/5 p-6 rounded-2xl border border-white/15 backdrop-blur-[2px] shadow-lg gap-6">
-                    <h3 className="text-lg font-bold mb-2">Your Notes</h3>
+                <motion.section
+                    initial={{ transform: "translateY(20px)", opacity: 0 }} 
+                    transition={{ type: "spring" }} 
+                    whileInView={{ transform: "translateY(0px)", opacity: 1 }} 
+                    className="mt-6 bg-white/5 p-6 rounded-2xl border border-white/15 backdrop-blur-[2px] shadow-lg gap-6"
+                >
+                    <motion.h3 
+                        initial={{ transform: "translateX(-20px)", opacity: 0 }} 
+                        transition={{ type: "spring" }} 
+                        whileInView={{ transform: "translateX(0px)", opacity: 1 }}
+                        className="text-lg font-bold mb-2"
+                    >
+                        Your Notes
+                    </motion.h3>
                     <div>
-                        <div className="flex flex-row gap-2 items-center">
+                        <motion.div
+                            initial={{ transform: "translateX(-10px)", opacity: 0 }} 
+                            transition={{ type: "spring" }} 
+                            whileInView={{ transform: "translateY(0px)", opacity: 1 }} 
+                            className="flex flex-row gap-2 items-center"
+                        >
                             <NotebookPen size={18}/> 
                             <p className="font-semibold">You&apos;ve written:</p>
                             <span className="font-light">{notes.length} notes.</span>
-                        </div>
-                        <div className="flex flex-row gap-2 items-center">
+                        </motion.div>
+                        <motion.div
+                            initial={{ transform: "translateX(-10px)", opacity: 0 }} 
+                            transition={{ type: "spring" }} 
+                            whileInView={{ transform: "translateY(0px)", opacity: 1 }} 
+                            className="flex flex-row gap-2 items-center"
+                        >
                             <Star size={18}/>
                             <p className="font-semibold">Favourite notes: </p>
                             <span className="font-light">{notes.filter((note) => note.isFavorite).length} favourite notes.</span>
-                        </div>
-                        <div className="flex flex-row gap-2 items-center">
+                        </motion.div>
+                        <motion.div
+                            initial={{ transform: "translateX(-10px)", opacity: 0 }} 
+                            transition={{ type: "spring" }} 
+                            whileInView={{ transform: "translateY(0px)", opacity: 1 }} 
+                            className="flex flex-row gap-2 items-center"
+                        >
                             <ArchiveIcon size={18}/>
                             <p className="font-semibold">Archived notes:</p> 
                             <span className="font-light">{notes.filter((note) => note.isArchived).length} archived notes.</span>
-                        </div>
-                        <div className="flex flex-row gap-2 items-center">
+                        </motion.div>
+                        <motion.div
+                            initial={{ transform: "translateX(-10px)", opacity: 0 }} 
+                            transition={{ type: "spring" }} 
+                            whileInView={{ transform: "translateY(0px)", opacity: 1 }} 
+                            className="flex flex-row gap-2 items-center"
+                        >
                             <ClockPlus size={18}/>
                             <p className="font-semibold">Last note:</p> 
                             {getRecentNotes(notes, 1).length > 0 ? (
@@ -172,14 +235,26 @@ export default function ProfilePage() {
                                         : "No notes yet, start writing your thoughts ✨🌌"}
                                 </span>
                             )}
-                        </div>
+                        </motion.div>
                     </div>
-                </section>
+                </motion.section>
 
-                <section className="mt-4 relative bg-white/2 px-4 pt-4 pb-2 rounded-2xl border border-white/15 backdrop-blur-[1px] shadow-lg gap-6">
+                <motion.section
+                    initial={{ transform: "translateY(20px)", opacity: 0 }} 
+                    transition={{ type: "spring" }} 
+                    whileInView={{ transform: "translateY(0px)", opacity: 1 }}
+                    className="mt-4 relative bg-white/2 px-4 pt-4 pb-2 rounded-2xl border border-white/15 backdrop-blur-[1px] shadow-lg gap-6"
+                >
                     <header className="flex items-center gap-3 mb-8 ml-2">
                         <ChartSpline strokeWidth={2.3}/>
-                        <h3 className="text-lg font-bold">Statistics Chart &#40;Weekly&#41;</h3>
+                        <motion.h3
+                            initial={{ transform: "translateX(-20px)", opacity: 0 }} 
+                            transition={{ type: "spring" }} 
+                            whileInView={{ transform: "translateX(0px)", opacity: 1 }} 
+                            className="text-lg font-bold"
+                        >
+                            Statistics Chart &#40;Weekly&#41;
+                        </motion.h3>
                     </header>
                     <AreaChart 
                         className="h-64 mt-4 tremor-x-axis tremor-y-axis tremor-foreground recharts-area-area "
@@ -209,15 +284,33 @@ export default function ProfilePage() {
                             );
                         }}
                     />
-                </section>
+                </motion.section>
 
-                <section className={`mt-4 bg-white/3 p-6 rounded-2xl border border-white/15 backdrop-blur-[3px] shadow-lg gap-6`}>
+                <motion.section
+                    initial={{ transform: "translateY(20px)", opacity: 0 }} 
+                    transition={{ type: "spring" }} 
+                    whileInView={{ transform: "translateY(0px)", opacity: 1 }} 
+                    className={`mt-4 bg-white/3 p-6 rounded-2xl border border-white/15 backdrop-blur-[3px] shadow-lg gap-6`}
+                >
                     <header className="flex items-center gap-3 mb-2">
                         <ClockPlus strokeWidth={2.3} size={23}/>
-                        <h3 className="text-lg font-bold">Your Most Recent Notes</h3>
+                        <motion.h3
+                            initial={{ transform: "translateX(-20px)", opacity: 0 }} 
+                            transition={{ type: "spring" }} 
+                            whileInView={{ transform: "translateX(0px)", opacity: 1 }}
+                            className="text-lg font-bold"
+                        >
+                            Your Most Recent Notes
+                        </motion.h3>
                     </header>
                     {getRecentNotes(notes, (isMobile ? 3 : 5)).map((n, i) => (
-                        <div key={i} className={`flex ${isMobile ? "flex-col justify-center mb-3 gap-1" : "flex-row items-center gap-2"}`}>
+                        <motion.div
+                            initial={{ transform: "translateY(-5px)", opacity: 0 }} 
+                            transition={{ type: "spring" }} 
+                            whileInView={{ transform: "translateX(0px)", opacity: 1 }} 
+                            key={i} 
+                            className={`flex ${isMobile ? "flex-col justify-center mb-3 gap-1" : "flex-row items-center gap-2"}`}
+                        >
                             <span className="font-semibold">
                                 {isMobile && "Title: "}
                                 {n.title.length > titleCharLimit 
@@ -236,9 +329,9 @@ export default function ProfilePage() {
                                 {isMobile && "Date: "}
                                 {getDate(n.createdAt)}
                             </span>
-                        </div>
+                        </motion.div>
                     ))}
-                </section>
+                </motion.section>
 
                 <section className={`mt-4 ${isMobile ? "mb-20" : ""}`}>
                     <InstallButton/>

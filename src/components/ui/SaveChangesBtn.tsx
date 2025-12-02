@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import { useGeneral } from "@/context/GeneralContext";
 import { doc, setDoc } from "firebase/firestore";
 import { db, auth } from "@/lib/firebaseClient";
+import { motion, AnimatePresence } from "framer-motion";
 
 export default function SaveChangesBtn () {
     const user = auth.currentUser; // or NextUser
@@ -34,7 +35,7 @@ export default function SaveChangesBtn () {
             return;
         };
         if (hasUnsavedChanges === false) {
-            setSaveStatus("You've no changes to save... Write something!! 🌌");
+            setSaveStatus("You've no changes to save... 🌌");
             return;
         };
 
@@ -60,7 +61,10 @@ export default function SaveChangesBtn () {
         // This button's parent component has h-12%, so it fits
         <div className={`flex justify-center items-center ${isMobile ? "" : "mr-7"}`}>
             {/* SAVE BUTTON */}
-            <button 
+            <motion.button
+                initial={{ transform: "translateY(-20px)", opacity: 0 }} 
+                transition={{ type: "spring" }} 
+                whileInView={{ transform: "translateY(0px)", opacity: 1 }}
                 onClick={() => {
                     saveChanges();
                     toggleSaveMessage();
@@ -69,42 +73,57 @@ export default function SaveChangesBtn () {
             >
                 <span className="hidden sm:inline">Save Changes</span>   
                 <span className="inline sm:hidden">Save</span>   
-            </button>
+            </motion.button>
 
             {/* EXIT MODAL */}
-            { showExitModal && (
-                <div className="fixed inset-0 bg-black/60 backdrop-blur-[3px] backdrop-saturate-[100%] bg-opacity-0 flex items-center justify-center z-50">
-                    <div className="bg-[#121113] text-white rounded-2xl border-1 border-[#ffffff9d] p-6 shadow-lg w-[90%] max-w-md">
-                        <h2 className="text-xl font-semibold mb-3">Please save your changes before exiting.</h2>
-                        <p className="text-zinc-400 mb-5">
-                            You have unsaved changes. Do you want to save them before leaving? <br />
-                            Please save ❤️🌌
-                        </p>
-                        <div className="flex justify-end gap-3">
-                            <button
-                                onClick={() => setShowExitModal(false)} 
-                                className="px-4 py-2 rounded-lg bg-[#451f1f] hover:bg-[#6b0707] transition cursor-pointer"
-                            >
-                                Cancel
-                            </button>
-                            <button
-                                onClick={() => {
-                                    // Save function...
-                                    saveChanges();
-                                    setShowExitModal(false);
-                                    toggleSaveMessage();
-                                }}
-                                className="px-4 py-2 rounded-lg bg-[#381667] hover:bg-[#6903ae] transition cursor-pointer"
-                            >
-                                Save
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            )}
+            <AnimatePresence>
+                { showExitModal && (
+                    <motion.div
+                        key="exit-modal"
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        exit={{ opacity: 0 }}
+                        transition={{ duration: 0.5, ease: "easeOut" }}
+                        className="fixed inset-0 bg-black/60 backdrop-blur-[3px] backdrop-saturate-[100%] bg-opacity-0 flex items-center justify-center z-50"
+                    >
+                        <motion.div
+                            initial={{ opacity: 0, scale: 0.95, y: 20 }}
+                            animate={{ opacity: 1, scale: 1, y: 0 }}
+                            exit={{ opacity: 0, scale: 0.95, y: 20 }}
+                            transition={{ duration: 0.5, type: "spring" }}
+                            className="bg-[#121113] text-white rounded-2xl border-1 border-[#ffffff9d] p-6 shadow-lg w-[90%] max-w-md"
+                        >
+                            <h2 className="text-xl font-semibold mb-3">Please save your changes before exiting.</h2>
+                            <p className="text-zinc-400 mb-5">
+                                You have unsaved changes. Do you want to save them before leaving? <br />
+                                Please save ❤️🌌
+                            </p>
+                            <div className="flex justify-end gap-3">
+                                <button
+                                    onClick={() => setShowExitModal(false)} 
+                                    className="px-4 py-2 rounded-lg bg-[#451f1f] hover:bg-[#6b0707] transition cursor-pointer"
+                                >
+                                    Cancel
+                                </button>
+                                <button
+                                    onClick={() => {
+                                        // Save function...
+                                        saveChanges();
+                                        setShowExitModal(false);
+                                        toggleSaveMessage();
+                                    }}
+                                    className="px-4 py-2 rounded-lg bg-[#381667] hover:bg-[#6903ae] transition cursor-pointer"
+                                >
+                                    Save
+                                </button>
+                            </div>
+                        </motion.div>
+                    </motion.div>
+                )}
+            </AnimatePresence> 
 
             {/* SAVE STATUS MESSAGE */}
-            <div className={`fixed px-5 py-3 bg-white rounded-2xl right-3 bottom-5 z-50 text-black shadow-lg transform transition-transform duration-700 ease-out ${saveBtnClicked ? "translate-y-0 opacity-100" : "translate-y-20 opacity-50"}`}>
+            <div className={`fixed px-5 py-3 bg-white rounded-2xl right-3 bottom-5 z-50 text-black shadow-[0px_0px_20px_3px_#454343] transform transition-transform duration-700 ease-out ${saveBtnClicked ? "translate-y-0 opacity-100" : "translate-y-20 opacity-50"}`}>
                 <p className="whitespace-nowrap">{saveStatus}</p>
             </div>
         </div>

@@ -4,6 +4,7 @@ import AdaptiveNavigation from "@/components/ui/AdaptiveNavigation";
 import { useGeneral } from "@/context/GeneralContext";
 import { useEffect } from "react";
 import Image from "next/image";
+import { motion } from "framer-motion";
 
 interface wallpaperTypes {
     id: number;
@@ -76,13 +77,33 @@ export default function SettingsPage() {
             <AdaptiveNavigation/>
             <div className="relative w-full h-full backdrop-blur-[1px] backdrop-saturate-[100%] bg-opacity-0">
                 <div className="flex flex-col h-full justify-center">
-                    <h2 className={`flex items-center text-4xl font-bold text-purple-50 h-[12%] mb-8 mt-5 ${isMobile ? "pl-7" : isSidebarOpen ? "pl-70" : "pl-23"}`}>Settings</h2>
+                    <motion.h2
+                        initial={{ transform: "translateY(30px)", opacity: 0 }} 
+						transition={{ type: "spring" }} 
+						whileInView={{ transform: "translateY(0px)", opacity: 1 }}
+                        className={`flex items-center text-4xl font-bold text-purple-50 h-[12%] mb-8 mt-5 ${isMobile ? "pl-7" : isSidebarOpen ? "pl-70" : "pl-23"}`}
+                    >
+                        Settings
+                    </motion.h2>
                     <div className={`${isMobile ? "pl-5" : "pl-[6rem]"} pr-5`}>
                         <div className="w-full"> {/* WALLPAPER SETTING */}
-                            <h2 className="text-2xl font-semibold text-white mb-10">Wallpapers</h2>
+                            <motion.h2
+                                initial={{ transform: "translateX(-20px)", opacity: 0 }} 
+                                transition={{ type: "spring" }} 
+                                whileInView={{ transform: "translateX(0px)", opacity: 1 }} 
+                                className="text-2xl font-semibold text-white mb-10"
+                            >
+                                Wallpapers:
+                            </motion.h2>
                             <div className="flex flex-row gap-6 flex-wrap justify-center items-stretch ">
                                 {wallpapers.map(({ id, name, preview, wallpaperPath, category, description }) => ( // RENDERING CARDS here <3
-                                    <div className="flex flex-col max-w-[400px] min-w-[320px] bg-white rounded-2xl p-3" key={id}>
+                                    <motion.div
+                                        initial={{ transform: "translateY(20px)", opacity: 0 }} 
+                                        transition={{ type: "spring" }} 
+                                        whileInView={{ transform: "translateY(0px)", opacity: 1 }}
+                                        className="flex flex-col max-w-[400px] min-w-[320px] bg-white rounded-2xl p-3" 
+                                        key={id}
+                                    >
                                         <h3 className="text-[22px] font-bold mb-3">{name}</h3>
                                         <div className="h-[250px] w-full">
                                             <Image 
@@ -105,7 +126,7 @@ export default function SettingsPage() {
                                                 { currWallpaper === wallpaperPath ? "Current wallpaper" : "Set as wallpaper?"}
                                             </div>
                                         </button>
-                                    </div>
+                                    </motion.div>
                                 ))}
                             </div>
                         </div>

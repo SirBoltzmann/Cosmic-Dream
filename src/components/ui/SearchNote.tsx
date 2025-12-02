@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import { Search } from "lucide-react";
 import { useGeneral } from "@/context/GeneralContext";
+import { motion } from "framer-motion";
 
 interface SearchNotesProps {
     onSearchChange: (value: string) => void;
@@ -20,10 +21,15 @@ export default function SearchNotes({onSearchChange}: SearchNotesProps) {
 
     return (
         <div className={`flex justify-center items-center ${isMobile ? "" : "ml-23"}`}>
-            <div className={`
-                flex flex-row items-center ${isMobile ? "justify-center px-2" : "justify-between px-8"} py-3 rounded-2xl text-zinc-200 hover:text-[#fff] font-semibold backdrop-blur-[5px] backdrop-saturate-[122%] bg-[#ffffff11] hover:bg-[#ffffff24] bg-opacity-10 border border-opacity-20 border-[#ffffff8e] hover:border-[#fff] cursor-auto transition-all ease-out
-                ${showInput ? "w-[200px] sm:w-[170px] md:w-[300px] lg:w-[450px]" : "w-[60px]"}
-            `}>
+            <motion.div 
+                initial={{ transform: "translateY(-20px)", opacity: 0 }} 
+                transition={{ type: "spring" }} 
+                whileInView={{ transform: "translateY(0px)", opacity: 1 }}
+                className={`
+                    flex flex-row items-center ${isMobile ? "justify-center px-2" : "justify-between px-8"} py-3 rounded-2xl text-zinc-200 hover:text-[#fff] font-semibold backdrop-blur-[5px] backdrop-saturate-[122%] bg-[#ffffff11] hover:bg-[#ffffff24] bg-opacity-10 border border-opacity-20 border-[#ffffff8e] hover:border-[#fff] cursor-auto transition-all ease-out
+                    ${showInput ? "w-[200px] sm:w-[170px] md:w-[300px] lg:w-[450px]" : "w-[60px]"}
+                `}
+            >
                 {showInput && (
                     <input
                         type="text"
@@ -44,7 +50,7 @@ export default function SearchNotes({onSearchChange}: SearchNotesProps) {
                         if (isMobile) setShowInput((prev) => !prev);
                     }}
                 />
-            </div>
+            </motion.div>
         </div>
     );
 }

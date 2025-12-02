@@ -3,6 +3,7 @@
 import AdaptiveNavigation from "@/components/ui/AdaptiveNavigation";
 import { Instagram, Github, Codepen, Linkedin, TentTree} from "lucide-react";
 import { useGeneral } from "@/context/GeneralContext";
+import { motion } from "framer-motion";
 
 export default function SupportPage() {
     const { isSidebarOpen, isMobile } = useGeneral();
@@ -10,13 +11,26 @@ export default function SupportPage() {
     return (
         <>
             <AdaptiveNavigation/>
-            <div className="fixed top-0 left-0 w-screen h-screen backdrop-blur-[1px] bg-[#00000008] backdrop-saturate-[115%] bg-opacity-150 -z-1"></div> {/* BLURRED BG */}
+            <div className="fixed top-0 left-0 w-screen h-screen backdrop-blur-[1px] bg-[#00000008] backdrop-saturate-[125%] bg-opacity-150 -z-1"></div> {/* BLURRED BG */}
             <div className="w-full h-full">
                 <div className="flex flex-col h-full items-center gap-3">
-					<h2 className={`self-start text-3xl md:text-4xl font-bold text-purple-50 h-[12%] mb-8 mt-5 ${isMobile ? "pl-7" : isSidebarOpen ? "pl-70" : "pl-23"}`}>Support this Cosmic Dream ❤️🌌</h2>
+					<motion.h2
+                        initial={{ transform: "translateX(-20px)", opacity: 0 }} 
+                        transition={{ type: "spring" }} 
+                        whileInView={{ transform: "translateX(0px)", opacity: 1 }} 
+                        className={`self-start text-3xl md:text-4xl font-bold text-purple-50 h-[12%] mb-8 mt-5 ${isMobile ? "pl-7" : isSidebarOpen ? "pl-70" : "pl-23"}`}
+                    >
+                        Support this Cosmic Dream ❤️🌌
+                    </motion.h2>
+
 					<div className={`flex w-full flex-col items-center gap-2 ${isMobile ? "px-1" : "pl-23"}`}> 
                         {/* ABOUT ME */}
-						<div className="w-[95%] bg-[#ffffff] rounded-2xl px-6 py-3 space-box">
+						<motion.div
+                            initial={{ transform: "translateX(-10px)", opacity: 0 }} 
+                            transition={{ type: "spring" }} 
+                            whileInView={{ transform: "translateX(0px)", opacity: 1 }}
+                            className="w-[95%] bg-[#ffffff] rounded-2xl px-6 py-3 space-box"
+                        >
 							<h3 className="text-2xl font-bold mb-2">A little about me...</h3>
                             <p>Hi, I’m Dario — a dreamer wandering among the stars. 🌌</p>
 							<p>
@@ -27,20 +41,30 @@ export default function SupportPage() {
                                 If you’d like to help me continue this journey among the stars, you can support me in different ways.. <br />
                                 Thank you, truly, for believing in dreams. 💖
                             </p>
-						</div>
+						</motion.div>
                         
                         {/* SUPPORT ME pls lol */}
-                        <div className="w-[95%] bg-[#ffffff] rounded-2xl px-6 py-3 space-box"> 
+                        <motion.div
+                            initial={{ transform: "translateX(10px)", opacity: 0 }} 
+                            transition={{ type: "spring" }} 
+                            whileInView={{ transform: "translateX(0px)", opacity: 1 }}
+                            className="w-[95%] bg-[#ffffff] rounded-2xl px-6 py-3 space-box"
+                        > 
                             <p className="font-semibold italic">Cosmic Dream will always be free for everyone.</p>
                             <p>
                                 But maintaining servers, tools, and time for updates can be challenging. <br />
                                 Supporting this project on Patreon helps me keep developing new features, polish the experience, and keep this cosmic diary alive for dreamers like you. 🌌
                             </p>
-						</div>
+						</motion.div>
                         
                         {/* SUPPORT */}
                         <div className="flex flex-col w-[95%] md:flex-row md:justify-center gap-3"> 
-                            <div className="w-full bg-[#ffffff] rounded-2xl px-6 py-3 space-box">
+                            <motion.div 
+                                initial={{ transform: "translateX(-10px)", opacity: 0 }} 
+                                transition={{ type: "spring" }} 
+                                whileInView={{ transform: "translateX(0px)", opacity: 1 }}
+                                className="w-full bg-[#ffffff] rounded-2xl px-6 py-3 space-box"
+                            >
                                 <h3 className="text-xl font-bold mb-2">Ways to support</h3>
                                 <ul>
                                     <li>
@@ -68,9 +92,14 @@ export default function SupportPage() {
                                         <span className="font-semibold">Feedback: </span>Your kind words and ideas help me more than you imagine.
                                     </li>
                                 </ul>
-                            </div>
+                            </motion.div>
 
-                            <div className="w-full bg-[#ffffff] rounded-2xl px-6 py-3 space-box "> {/* SOCIALS */}
+                            <motion.div
+                                initial={{ transform: "translateX(10px)", opacity: 0 }} 
+                                transition={{ type: "spring" }} 
+                                whileInView={{ transform: "translateX(0px)", opacity: 1 }}
+                                className="w-full bg-[#ffffff] rounded-2xl px-6 py-3 space-box "
+                            > {/* SOCIALS */}
                                 <h3 className="text-xl font-bold mb-2">You can follow me</h3>
                                 <p>The following are my social accounts:</p>
 
@@ -136,28 +165,34 @@ export default function SupportPage() {
                                         </span>
                                     </div>
                                 </div>
-                            </div>
+                            </motion.div>
                         </div>
 
                         {/* BUTTONS */}
                         <div className={`flex flex-col items-center w-[95%] sm:flex-row sm:justify-center gap-4 my-7 ${isMobile ? "pb-24" : ""}`} >
-                            <a
+                            <motion.a
+                                initial={{ transform: "translateX(-20px)", opacity: 0 }} 
+                                transition={{ type: "spring" }} 
+                                whileInView={{ transform: "translateX(0px)", opacity: 1 }}
                                 href="https://www.patreon.com/SirBoltzmann"
                                 target="_blank"
                                 rel="noopener noreferrer"
                                 className="w-56 px-6 py-3 bg-[#ff424d] text-white font-semibold rounded-2xl shadow-lg shadow-[#ff424d]/40 hover:scale-105 hover:shadow-[#ff424d]/60 transition-all duration-300"
                             >
                                 Support on Patreon ❤️
-                            </a>
+                            </motion.a>
 
-                            <a
+                            <motion.a
+                                initial={{ transform: "translateX(20px)", opacity: 0 }} 
+                                transition={{ type: "spring" }} 
+                                whileInView={{ transform: "translateX(0px)", opacity: 1 }}
                                 href="https://buymeacoffee.com/sirboltzmann"
                                 target="_blank"
                                 rel="noopener noreferrer"
                                 className="w-56 px-6 py-3 bg-[#ffdd00] text-[#232323] font-semibold rounded-2xl shadow-lg shadow-[#ffdd00]/40 hover:scale-105 hover:shadow-[#ffdd00]/60 transition-all duration-300"
                             >
                                 Buy me a Coffee ☕
-                            </a>
+                            </motion.a>
                         </div>
 					</div>
 				</div>
