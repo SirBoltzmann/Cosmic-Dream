@@ -1,7 +1,7 @@
 "use client"
 
 import { useGeneral } from "@/context/GeneralContext";
-import { useRef, useState } from "react";
+import { useRef, useState, useEffect } from "react";
 import { getDate } from "@/utils/utils";
 import { Timestamp } from "firebase/firestore";
 import Image from "next/image";
@@ -30,7 +30,15 @@ export default function NoteCard({ note, onDelete, onEdit }: NoteCardProps) {
     const {notes, toggleFavorite, toggleArchived } = useGeneral();
     const currNote = notes.find(({ id }) => id === note.id);
     const data = currNote ?? note;
-    
+
+    useEffect(() => {
+        const blockContextMenu = (e:MouseEvent) => e.preventDefault();
+        document.addEventListener("contextmenu", blockContextMenu);
+        return () => {
+            document.removeEventListener("contextmenu", blockContextMenu);
+        };
+    }, []);
+
     const toggleCard = () => {
         setIsCardOpen(!isCardOpen);
     };
