@@ -1,10 +1,11 @@
 "use client";
 
-import React, { createContext, useContext, useState, useEffect, useCallback } from "react";
+import React, { createContext, useContext, useState, useEffect, useCallback, useRef } from "react";
 import { getDoc, doc } from "firebase/firestore"
 import { db, auth } from "@/lib/firebaseClient";
 import { onAuthStateChanged } from "firebase/auth";
 import { Timestamp } from "firebase/firestore";
+import { soundtracks } from "@/data/soundtracks";
 
 type Note = {
     id: string;
@@ -15,6 +16,14 @@ type Note = {
     createdAt: Timestamp;
     updatedAt: Timestamp;
 };
+
+interface soundtrackTypes {
+    id: number;
+    title: string;
+    artist: string;
+    url: string;
+    imageUrl: string;
+}
 
 type GeneralContextType = {
     // NOTE FUNCTIONALITIES AND STATES
@@ -34,10 +43,17 @@ type GeneralContextType = {
     setCurrentWallpaper: (wallpaperId: string) => void;
 
     hasUnsavedChanges: boolean;
-    setHasUnsavedChanges: React.Dispatch<React.SetStateAction<boolean>>;
+    setHasUnsavedChanges: React.Dispatch<React.SetStateAction<boolean>>; //For the useState settler types lol
 
     // GENERAL STATES
     isMobile: boolean;
+
+    // SOUNDTRACK STATES
+    audioRef: React.MutableRefObject<HTMLAudioElement | null>;
+    isPlaying: boolean;
+    togglePlay: () => void;
+    currentTrack: soundtrackTypes;
+    handleSelectSoundtrack: (soundtrack: soundtrackTypes) => void;
 };
 
 const GeneralContext = createContext<GeneralContextType | undefined>(undefined);
@@ -75,7 +91,7 @@ export const GeneralProvider = ({ children }: { children: React.ReactNode }) => 
         return () => unsubscribe();
     }, []);
 
-    // NOTE FUNCTIONALITIES AND STATES
+    // ============ NOTE FUNCTIONALITIES AND STATES ============
     const [notes, setNotes] = useState<Note[]>([]);
 
     const addNote = (note: Note) => {
@@ -113,11 +129,13 @@ export const GeneralProvider = ({ children }: { children: React.ReactNode }) => 
         setHasUnsavedChanges(true);
     }
 
-    // SIDEBAR STATES
+
+    // ============ SIDEBAR STATES ============
     const [ isSidebarOpen, setIsSidebarOpen ] = useState(false);
     const toggleSidebar = () => setIsSidebarOpen((prev) => !prev);
 
-    // WALLPAPERS
+
+    // ============ WALLPAPERS ============
     const [ currWallpaper, setCurrWallpaper ] = useState("NativeAnimation.tsx");
     const setCurrentWallpaper = useCallback((wallpaperId: string) => {
         setCurrWallpaper(wallpaperId);
@@ -133,8 +151,77 @@ export const GeneralProvider = ({ children }: { children: React.ReactNode }) => 
         return () => window.removeEventListener("resize", handleResize);
     }, []);
 
+
+    // ============ SOUNDTRACK ============
+    const audioRef = useRef<HTMLAudioElement | null>(null);
+    const hasInitializedAudio = useRef(false);
+    const [ isPlaying, setIsPlaying ] = useState<boolean>(true);
+    const [ currentTrack, setCurrentTrack ] = useState<soundtrackTypes>(soundtracks[0]);
+
+    // INSTANCE NEW AUDIO
+    useEffect(() => {
+        if (hasInitializedAudio.current) return;
+        hasInitializedAudio.current = true;
+
+        audioRef.current = new Audio(currentTrack.url);
+        audioRef.current.muted = true;
+        audioRef.current.loop = true;
+    }, []);
+
+    // UNMUTES IT WHEN USER INTERACT
+    useEffect(() => {
+        const unlockAudio = () => {
+            if (audioRef.current) {
+                audioRef.current.muted = false;
+                audioRef.current.play().catch(() => {});
+                setIsPlaying(true);
+            }
+
+            window.removeEventListener("click", unlockAudio);
+            window.removeEventListener("keydown", unlockAudio);
+            window.removeEventListener("touchstart", unlockAudio);
+        };
+
+        window.addEventListener("click", unlockAudio);
+        window.addEventListener("keydown", unlockAudio);
+        window.addEventListener("touchstart", unlockAudio);
+
+        return () => {
+            window.removeEventListener("click", unlockAudio);
+            window.removeEventListener("keydown", unlockAudio);
+            window.removeEventListener("touchstart", unlockAudio);
+        };
+    }, []);
+
+    const togglePlay = () => {
+        if (!currentTrack) return;
+
+        if (isPlaying) {
+            audioRef.current!.pause();
+            setIsPlaying(false);
+        } else {
+            audioRef.current!.play();
+            setIsPlaying(true);
+        }
+    };
+
+    const handleSelectSoundtrack = (soundtrack: soundtrackTypes) => {
+        setCurrentTrack(soundtrack);
+
+        audioRef.current!.src = soundtrack.url;
+        audioRef.current?.load();
+        audioRef.current!.play();
+        setIsPlaying(true);
+    };
+
     return (
-        <GeneralContext.Provider value={{ notes, addNote, updateNote, deleteNote, toggleFavorite, toggleArchived, isSidebarOpen, toggleSidebar, currWallpaper, setCurrentWallpaper, hasUnsavedChanges, setHasUnsavedChanges, isMobile}}>
+        <GeneralContext.Provider 
+            value={{ 
+                notes, addNote, updateNote, deleteNote, toggleFavorite, toggleArchived, 
+                isSidebarOpen, toggleSidebar, currWallpaper, setCurrentWallpaper, hasUnsavedChanges, 
+                setHasUnsavedChanges, isMobile, audioRef, isPlaying, togglePlay, currentTrack, handleSelectSoundtrack
+            }}
+        >
             {children}
         </GeneralContext.Provider>
     );
