@@ -99,7 +99,7 @@ export default function AboutPage() {
 					</div>
 
 					{/* BOTTOM GRID */}
-					<div className={`flex w-full md:justify-center ${isMobile ? "pl-5 pb-24" : "pl-23"}`}> 
+					<div className={`flex w-full md:justify-center ${isMobile ? "pl-5" : "pl-23"}`}> 
 						<motion.div
 							initial={{ transform: "translateY(20px)", opacity: 0 }} 
 							transition={{ type: "spring" }} 
@@ -108,9 +108,31 @@ export default function AboutPage() {
 						> {/* SPECIAL CREDITS */}
 							<h3 className="text-2xl font-bold mb-2">Special Credits..</h3>
 							<p>
-								Thanks to the stars that inspired me, to the silence that gave me space, to the people who believed in me, the ones I love, and helped me. Thanks my dear Meily ❤️🌌<br />
-								Gaze into the night and discover ancient stories written in starlight. <br />
-								Each constellation whispers secrets of time, and every star burns and echo the dreams of those who once looked up... God bless, you. ❤️
+								Thanks to the stars that inspired me, to the silence that gave me space, to the people who believed in me, the ones I love, and helped me.
+								Thanks my dear Meily for your full support and your digital drawings ❤️🌌
+								<br /> 
+								Gaze into the night and discover ancient stories written in starlight.
+								<br />
+								Each constellation whispers secrets of time, and every star burns and echoes the dreams of those who once looked up...
+								<br />
+								God bless you. ❤️
+							</p>
+						</motion.div>
+					</div>
+					<div className={`flex w-full md:justify-center ${isMobile ? "pl-5 pb-24" : "pl-23 mb-5"}`}> 
+						<motion.div
+							initial={{ transform: "translateY(20px)", opacity: 0 }} 
+							transition={{ type: "spring" }} 
+							whileInView={{ transform: "translateY(0px)", opacity: 1 }}
+							className="w-[95%] md:w-[calc(90%+20px)] bg-[#ffffff] rounded-2xl px-6 py-3 space-box"
+						>
+							<h3 className="text-lg font-bold mb-2">
+								Soundtracks featured in this experience 🎶 
+							</h3>
+							<p>
+								<strong>Losing</strong> — Lonnex
+								<br />
+								<strong>Quiescent</strong> — Baton
 							</p>
 						</motion.div>
 					</div>
